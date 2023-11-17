@@ -1,8 +1,10 @@
 package com.cloudinarytest.cloudinaryservicetest.controller;
 
 
-import com.cloudinarytest.cloudinaryservicetest.service.FileUploadImpl;
-import lombok.AllArgsConstructor;
+import com.cloudinarytest.cloudinaryservicetest.service.FileUpload;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,18 +15,19 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UploadController {
-    private final FileUploadImpl fileUpload;
+    private final FileUpload fileUpload;
+
     @RequestMapping("/")
-    public String home(){
+    public String home() {
         return "home";
     }
+
     @PostMapping("/upload")
-    public String uploadFile(@RequestParam("image") MultipartFile multipartFile,
-                             Model model) throws IOException {
+    public ResponseEntity<String> uploadFile(@RequestParam("image") MultipartFile multipartFile) throws IOException {
         String imageURL = fileUpload.uploadFile(multipartFile);
-        model.addAttribute("imageURL",imageURL);
-        return "gallery";
+
+        return new ResponseEntity<>("File uploaded successfully", HttpStatus.OK);
     }
 }

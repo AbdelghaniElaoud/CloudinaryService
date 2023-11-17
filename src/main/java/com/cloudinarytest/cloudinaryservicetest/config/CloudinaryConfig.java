@@ -14,22 +14,21 @@ import java.util.Map;
 @Configuration
 public class CloudinaryConfig {
 
+    @Value("${cloudinary.cloud_name}")
+    private String cloudName;
 
-    private final String CLOUD_NAME = "did7uh4lm";
+    @Value("${cloudinary.api_key}")
+    private String apiKey;
 
-    private final String API_KEY = "266942332738569";
-
-    private final String API_SECRET = "ENabwaPRsPuaz1SjEspN-QjmdMg";
-
-    public CloudinaryConfig() {
-    }
+    @Value("${cloudinary.api_secret}")
+    private String apiSecret;
 
     @Bean
     public Cloudinary cloudinary(){
         Map<String, String> config = new HashMap<>();
-        config.put("cloud_name",CLOUD_NAME);
-        config.put("api_key",API_KEY);
-        config.put("api_secret",API_SECRET);
+        config.put("cloud_name", cloudName);
+        config.put("api_key", apiKey);
+        config.put("api_secret", apiSecret);
         return new Cloudinary(config);
     }
 }
